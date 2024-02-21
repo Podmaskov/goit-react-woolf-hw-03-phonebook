@@ -1,0 +1,36 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  border: 1px solid #000;
+  padding: 10px;
+  width: 360px;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 160px;
+}
+
+.label-text {
+  font-size: 18px;
+  line-height: 1.1;
+}
+
+.btn {
+  padding: 5px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  background-color: #fff;
+  color: #000;
+  font-size: 14px;
+  cursor: pointer;
+  width: 100px;
+}
+
+.btn:active {
+  background-color: #1a39d5;
+  color: #fff;
+}

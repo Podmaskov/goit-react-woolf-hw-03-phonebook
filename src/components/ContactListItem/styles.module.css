@@ -1,0 +1,21 @@
+.item-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn {
+  padding: 5px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  background-color: #fff;
+  color: #000;
+  font-size: 14px;
+  cursor: pointer;
+  width: 65px;
+}
+
+.btn:active {
+  background-color: #1a39d5;
+  color: #fff;
+}
