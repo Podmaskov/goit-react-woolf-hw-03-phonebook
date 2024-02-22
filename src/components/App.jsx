@@ -3,9 +3,11 @@ import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
 import { nanoid } from 'nanoid';
+import { setLocalStorage, getLocalStorage } from '../helpers/localStorage';
 
 import styles from './styles.module.css';
 
+const LS_KEY = 'contacts';
 export class App extends Component {
   state = {
     contacts: [],
@@ -28,23 +30,44 @@ export class App extends Component {
       alert(`${name} is already in contacts`);
       return;
     }
-    this.setState(prevState => ({
-      contacts: [
-        {
-          id: nanoid(),
-          name,
-          number,
-        },
-        ...prevState.contacts,
-      ],
-    }));
+    this.setState(prevState => {
+      const newContact = {
+        id: nanoid(),
+        name,
+        number,
+      };
+      setLocalStorage(LS_KEY, [newContact, ...prevState.contacts]);
+      return {
+        contacts: [
+          {
+            id: nanoid(),
+            name,
+            number,
+          },
+          ...prevState.contacts,
+        ],
+      };
+    });
   };
 
   deleteContact = id => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== id),
-    }));
+    this.setState(prevState => {
+      const restContacts = prevState.contacts.filter(
+        contact => contact.id !== id
+      );
+      setLocalStorage(LS_KEY, restContacts);
+      return {
+        contacts: restContacts,
+      };
+    });
   };
+
+  componentDidMount() {
+    const contacts = getLocalStorage(LS_KEY);
+    if (contacts && contacts.length > 0) {
+      this.setState({ contacts });
+    }
+  }
 
   filteredContacts = () => {
     const { contacts, filter } = this.state;
