@@ -14,6 +14,19 @@ export class App extends Component {
     filter: '',
   };
 
+  componentDidUpdate(_, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      setLocalStorage(LS_KEY, this.state.contacts);
+    }
+  }
+
+  componentDidMount() {
+    const contacts = getLocalStorage(LS_KEY);
+    if (contacts && contacts.length > 0) {
+      this.setState({ contacts });
+    }
+  }
+
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
@@ -31,12 +44,6 @@ export class App extends Component {
       return;
     }
     this.setState(prevState => {
-      const newContact = {
-        id: nanoid(),
-        name,
-        number,
-      };
-      setLocalStorage(LS_KEY, [newContact, ...prevState.contacts]);
       return {
         contacts: [
           {
@@ -61,13 +68,6 @@ export class App extends Component {
       };
     });
   };
-
-  componentDidMount() {
-    const contacts = getLocalStorage(LS_KEY);
-    if (contacts && contacts.length > 0) {
-      this.setState({ contacts });
-    }
-  }
 
   filteredContacts = () => {
     const { contacts, filter } = this.state;
